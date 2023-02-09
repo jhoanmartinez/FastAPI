@@ -4,8 +4,17 @@ import sqlalchemy.orm as _orm
 import schemas as _schemas
 import services as _services
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
 app = _fastapi.FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.post("/api/v1/users")      
 async def register_user(user: _schemas.UserRequest, db: _orm.Session = _fastapi.Depends(_services.get_db)):
